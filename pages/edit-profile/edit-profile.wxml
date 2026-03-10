@@ -1,0 +1,190 @@
+<!-- edit-profile.wxml -->
+<view class="nav-bar">
+  <view class="nav-left" bindtap="onBack">
+    <view class="nav-icon-back"></view>
+  </view>
+
+  <view class="nav-center" wx:if="{{editMode}}">身材档案</view>
+  <view class="nav-center" wx:else>个人资料</view>
+
+  <view class="nav-right" bindtap="onSaveOrDone">
+    <text wx:if="{{editMode}}">完成</text>
+    <text wx:else>编辑</text>
+  </view>
+</view>
+
+<scroll-view class="scrollarea" scroll-y enhanced show-scrollbar="{{false}}">
+  <view class="page-content">
+    <view class="avatar-section">
+      <view class="avatar-wrapper" bindtap="onChangeAvatar">
+        <image class="avatar-large" src="{{avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill" />
+        <view class="avatar-badge" wx:if="{{editMode}}">更换</view>
+      </view>
+
+      <input
+        class="nickname-input {{editMode ? 'editable' : ''}}"
+        value="{{nickname}}"
+        placeholder="请输入昵称"
+        disabled="{{!editMode}}"
+        bindinput="onNicknameInput"
+      />
+
+      <view class="hint-tip {{hintAnim ? 'anim' : ''}}">
+        <text class="hint-icon">提示</text>
+        <text class="hint-text">完善资料可提升试衣效果</text>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">快速填写</view>
+
+      <view class="form-row">
+        <text class="form-label">性别</text>
+        <view class="gender-group">
+          <view class="gender-option {{gender === 'male' ? 'active' : ''}}" data-value="male" bindtap="onGenderTap">男</view>
+          <view class="gender-option {{gender === 'female' ? 'active' : ''}}" data-value="female" bindtap="onGenderTap">女</view>
+          <view class="gender-option {{gender === 'other' ? 'active' : ''}}" data-value="other" bindtap="onGenderTap">其他</view>
+        </view>
+      </view>
+
+      <view class="form-row">
+        <text class="form-label">身高</text>
+        <view class="input-with-unit">
+          <slider value="{{height}}" min="140" max="220" step="1" block-size="20" activeColor="#6366F1" disabled="{{!editMode}}" bindchange="onHeightChange" />
+          <view class="input-suffix">{{height}} cm</view>
+        </view>
+      </view>
+
+      <view class="form-row">
+        <text class="form-label">体重</text>
+        <view class="input-row">
+          <input class="form-input" type="digit" value="{{weight}}" placeholder="请输入体重" disabled="{{!editMode}}" bindinput="onWeightInput" />
+          <text class="unit">kg</text>
+        </view>
+        <text class="bmi-hint" wx:if="{{bmi}}">BMI {{bmi}}</text>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-header" bindtap="toggleMeasurements">
+        <text class="card-title">三围 / 体型</text>
+        <text class="card-expand">{{measurementsOpen ? '收起' : '展开'}} ▼</text>
+      </view>
+
+      <view class="card-body" wx:if="{{measurementsOpen}}">
+        <view class="form-row three-inputs">
+          <view class="input-item">
+            <text class="input-label">胸围</text>
+            <input class="form-input small" type="digit" value="{{bust}}" placeholder="-" disabled="{{!editMode}}" bindinput="onBustInput" />
+          </view>
+          <view class="input-item">
+            <text class="input-label">腰围</text>
+            <input class="form-input small" type="digit" value="{{waist}}" placeholder="-" disabled="{{!editMode}}" bindinput="onWaistInput" />
+          </view>
+          <view class="input-item">
+            <text class="input-label">臀围</text>
+            <input class="form-input small" type="digit" value="{{hip}}" placeholder="-" disabled="{{!editMode}}" bindinput="onHipInput" />
+          </view>
+        </view>
+
+        <view class="form-row">
+          <text class="form-label">体型</text>
+          <scroll-view class="body-type-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+            <view class="body-type-list">
+              <view
+                class="body-type-item {{bodyType === item.value ? 'active' : ''}}"
+                wx:for="{{bodyTypes}}"
+                wx:key="value"
+                data-value="{{item.value}}"
+                bindtap="onBodyTypeTap"
+              >
+                <text class="bt-icon">{{item.icon}}</text>
+                <text class="bt-text">{{item.label}}</text>
+              </view>
+            </view>
+          </scroll-view>
+        </view>
+      </view>
+    </view>
+
+    <view class="preview-tip" wx:if="{{profileUpdated}}">
+      <view class="preview-avatar-mini"></view>
+      <text>资料已更新</text>
+    </view>
+
+    <view class="card">
+      <view class="card-header" bindtap="toggleExtended">
+        <text class="card-title">高级设置</text>
+        <text class="card-expand">{{extendedOpen ? '收起' : '展开'}} ▼</text>
+      </view>
+
+      <view class="card-body" wx:if="{{extendedOpen}}">
+        <view class="form-row">
+          <text class="form-label">风格标签</text>
+          <view class="tag-group">
+            <view
+              class="tag-item {{item.selected ? 'active' : ''}}"
+              wx:for="{{styleTags}}"
+              wx:key="label"
+              data-index="{{index}}"
+              bindtap="onStyleTagTap"
+            >{{item.label}}</view>
+          </view>
+        </view>
+
+        <view class="form-row">
+          <text class="form-label">肤色</text>
+          <view class="skin-row">
+            <view class="skin-tone-group">
+              <view class="skin-item {{skinTone === 'light' ? 'active' : ''}}" data-value="light" bindtap="onSkinToneTap">
+                <view class="skin-block light"></view>
+                <text>浅色</text>
+              </view>
+              <view class="skin-item {{skinTone === 'medium' ? 'active' : ''}}" data-value="medium" bindtap="onSkinToneTap">
+                <view class="skin-block medium"></view>
+                <text>中等</text>
+              </view>
+              <view class="skin-item {{skinTone === 'dark' ? 'active' : ''}}" data-value="dark" bindtap="onSkinToneTap">
+                <view class="skin-block dark"></view>
+                <text>深色</text>
+              </view>
+            </view>
+
+            <view class="skin-temp-group">
+              <view class="temp-item {{skinTemp === 'warm' ? 'active' : ''}}" data-value="warm" bindtap="onSkinTempTap">暖调</view>
+              <view class="temp-item {{skinTemp === 'cool' ? 'active' : ''}}" data-value="cool" bindtap="onSkinTempTap">冷调</view>
+            </view>
+          </view>
+        </view>
+
+        <view class="form-row">
+          <text class="form-label">鞋码</text>
+          <picker mode="selector" range="{{shoeSizes}}" value="{{shoeSizeIndex}}" disabled="{{!editMode}}" bindchange="onShoeSizeChange">
+            <view class="picker-value">{{shoeSizes[shoeSizeIndex] || '请选择'}}</view>
+          </picker>
+        </view>
+
+        <view class="form-row">
+          <text class="form-label">常用尺码</text>
+          <view class="size-inputs">
+            <view class="size-item">
+              <input class="form-input tiny" placeholder="上装" value="{{sizeTop}}" disabled="{{!editMode}}" bindinput="onSizeTopInput" />
+            </view>
+            <view class="size-item">
+              <input class="form-input tiny" placeholder="下装" value="{{sizePants}}" disabled="{{!editMode}}" bindinput="onSizePantsInput" />
+            </view>
+            <view class="size-item">
+              <input class="form-input tiny" placeholder="鞋子" value="{{sizeShoePref}}" disabled="{{!editMode}}" bindinput="onSizeShoePrefInput" />
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="bottom-spacer"></view>
+  </view>
+</scroll-view>
+
+<view class="bottom-bar">
+  <button class="btn-save-tryon" bindtap="onSaveAndTryon">保存并去试衣</button>
+</view>

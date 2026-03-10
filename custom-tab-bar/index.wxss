@@ -1,0 +1,70 @@
+/** 自定义 TabBar 样式，配合全局主色渐变 */
+.tabbar-wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 999;
+}
+
+.tabbar-blur {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: -40rpx;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, rgba(15, 23, 42, 0.06) 40%, rgba(15, 23, 42, 0.16) 100%);
+}
+
+.tabbar {
+  position: relative;
+  margin: 0 24rpx 16rpx;
+  height: 96rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8rpx 28rpx rgba(15, 23, 42, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  backdrop-filter: blur(18rpx);
+}
+
+.tab-item {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: #64748B;
+  font-size: 22rpx;
+}
+
+.tab-item.active {
+  color: #ffffff;
+}
+
+.tab-icon {
+  font-size: 32rpx;
+  margin-bottom: 4rpx;
+}
+
+.tab-text {
+  z-index: 2;
+}
+
+.tab-pill {
+  position: absolute;
+  left: 50%;
+  top: 8rpx;
+  width: 120rpx;
+  height: 80rpx;
+  transform: translateX(-50%);
+  border-radius: 999rpx;
+  background: linear-gradient(135deg, #6366F1 0%, #EC4899 100%);
+  box-shadow: 0 8rpx 20rpx rgba(99, 102, 241, 0.55);
+  z-index: 1;
+}
+

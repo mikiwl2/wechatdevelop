@@ -1,0 +1,18 @@
+<!-- 自定义底部 TabBar：渐变背景 + 图标文字 -->
+<view class="tabbar-wrapper">
+  <view class="tabbar-blur"></view>
+  <view class="tabbar">
+    <block wx:for="{{list}}" wx:key="pagePath">
+      <view
+        class="tab-item {{selected === index ? 'active' : ''}}"
+        data-index="{{index}}"
+        bindtap="onSwitch"
+      >
+        <view class="tab-icon">{{item.icon}}</view>
+        <view class="tab-text">{{item.text}}</view>
+        <view class="tab-pill" wx:if="{{selected === index}}"></view>
+      </view>
+    </block>
+  </view>
+</view>
+

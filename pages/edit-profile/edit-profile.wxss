@@ -1,0 +1,454 @@
+/**edit-profile.wxss - 个人资料/我的身材档案*/
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg);
+}
+
+/* 1. 顶部导航 固定吸顶 ~88-100px */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  min-height: 88px;
+  padding-top: env(safe-area-inset-top);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 24rpx;
+  padding-right: 24rpx;
+  background: #FFFFFF;
+  border-bottom: 1rpx solid var(--color-border);
+}
+
+.nav-left {
+  width: 80rpx;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.nav-center {
+  flex: 1;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.nav-right {
+  min-width: 80rpx;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 28rpx;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.nav-icon-back {
+  width: 24rpx;
+  height: 44rpx;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='24' viewBox='0 0 12 24'%3E%3Cpath fill='%231E293B' d='M10 19.438L8.955 20.5l-7.666-7.79a1.02 1.02 0 0 1 0-1.42L8.955 3.5 10 4.563 2.682 12 10 19.438z'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+}
+
+.scrollarea {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.page-content {
+  padding: 24rpx var(--spacing-page) 140rpx;
+}
+
+/* 2. 头像 + 基本信息区 */
+.avatar-section {
+  background: linear-gradient(180deg, rgba(99,102,241,0.06) 0%, rgba(236,72,153,0.04) 30%, #FFFFFF 100%);
+  border-radius: var(--radius-card);
+  padding: 36rpx 32rpx 32rpx;
+  margin-bottom: 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: var(--shadow-card);
+}
+
+.avatar-wrapper {
+  position: relative;
+  margin-bottom: 24rpx;
+}
+
+.avatar-large {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  display: block;
+  background: var(--color-border);
+}
+
+.avatar-badge {
+  position: absolute;
+  right: -8rpx;
+  bottom: -8rpx;
+  padding: 6rpx 16rpx;
+  font-size: 20rpx;
+  color: #FFFFFF;
+  background: var(--color-primary);
+  border-radius: 20rpx;
+}
+
+.nickname-input {
+  width: 100%;
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-align: center;
+  box-sizing: border-box;
+  margin-bottom: 16rpx;
+}
+
+.nickname-input.editable {
+  border-bottom: 2rpx solid var(--color-primary);
+  padding-bottom: 8rpx;
+}
+
+.hint-tip {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}
+
+.hint-tip.anim {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+/* 3. 核心身材卡片区 */
+.card {
+  background: #FFFFFF;
+  border-radius: var(--radius-card);
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: var(--shadow-card);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 24rpx;
+}
+
+.card-expand {
+  font-size: 24rpx;
+  color: var(--color-primary);
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 24rpx;
+}
+
+.card-body {
+  padding-top: 0;
+}
+
+.form-row {
+  margin-bottom: 28rpx;
+}
+
+.form-row:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  display: block;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 16rpx;
+}
+
+.gender-group {
+  display: flex;
+  gap: 24rpx;
+}
+
+.gender-option {
+  padding: 16rpx 40rpx;
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  border: 2rpx solid var(--color-border);
+  border-radius: var(--radius-btn);
+}
+
+.gender-option.active {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background: rgba(99,102,241,0.08);
+}
+
+.input-with-unit {
+  margin-top: 16rpx;
+}
+
+.input-suffix {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  margin-top: 12rpx;
+}
+
+.form-input {
+  width: 100%;
+  height: 72rpx;
+  padding: 0 24rpx;
+  font-size: 30rpx;
+  border: 2rpx solid var(--color-border);
+  border-radius: 12rpx;
+  box-sizing: border-box;
+}
+
+.form-input.small {
+  height: 64rpx;
+  font-size: 28rpx;
+}
+
+.form-input.tiny {
+  height: 56rpx;
+  font-size: 26rpx;
+}
+
+.bmi-hint {
+  display: block;
+  font-size: 24rpx;
+  color: var(--color-success);
+  margin-top: 12rpx;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.unit {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+
+.three-inputs {
+  display: flex;
+  gap: 24rpx;
+}
+
+.input-item {
+  flex: 1;
+}
+
+.input-label {
+  display: block;
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 12rpx;
+}
+
+.body-type-scroll {
+  white-space: nowrap;
+  margin-top: 16rpx;
+}
+
+.body-type-list {
+  display: inline-flex;
+  gap: 20rpx;
+  padding: 8rpx 0;
+}
+
+.body-type-item {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx 28rpx;
+  border: 2rpx solid var(--color-border);
+  border-radius: var(--radius-card);
+  min-width: 120rpx;
+}
+
+.body-type-item.active {
+  border-color: var(--color-primary);
+  background: rgba(99,102,241,0.08);
+}
+
+.bt-icon {
+  font-size: 40rpx;
+  margin-bottom: 8rpx;
+}
+
+.bt-text {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}
+
+.body-type-item.active .bt-text {
+  color: var(--color-primary);
+}
+
+.preview-tip {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 20rpx 24rpx;
+  background: rgba(16,185,129,0.08);
+  border-radius: var(--radius-card);
+  margin-bottom: 24rpx;
+}
+
+.preview-avatar-mini {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+}
+
+.preview-tip text {
+  font-size: 26rpx;
+  color: var(--color-success);
+}
+
+/* 4. 扩展信息 */
+.tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.tag-item {
+  padding: 12rpx 24rpx;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  border: 2rpx solid var(--color-border);
+  border-radius: 32rpx;
+}
+
+.tag-item.active {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background: rgba(99,102,241,0.08);
+}
+
+.skin-row {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.skin-tone-group {
+  display: flex;
+  gap: 32rpx;
+}
+
+.skin-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  padding: 12rpx 24rpx;
+  border: 2rpx solid var(--color-border);
+  border-radius: 12rpx;
+}
+
+.skin-item.active {
+  border-color: var(--color-primary);
+}
+
+.skin-block {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+}
+
+.skin-block.light { background: #FDE68A; }
+.skin-block.medium { background: #FCD34D; }
+.skin-block.dark { background: #D97706; }
+
+.skin-temp-group {
+  display: flex;
+  gap: 24rpx;
+}
+
+.temp-item {
+  padding: 12rpx 28rpx;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  border: 2rpx solid var(--color-border);
+  border-radius: 12rpx;
+}
+
+.temp-item.active {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.picker-value {
+  height: 72rpx;
+  line-height: 72rpx;
+  padding: 0 24rpx;
+  font-size: 30rpx;
+  border: 2rpx solid var(--color-border);
+  border-radius: 12rpx;
+  color: var(--color-text);
+}
+
+.size-inputs {
+  display: flex;
+  gap: 24rpx;
+}
+
+.size-item {
+  flex: 1;
+}
+
+.bottom-spacer {
+  height: 24rpx;
+}
+
+/* 5. 底部操作区 固定底部 ~100px */
+.bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 24rpx var(--spacing-page);
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  background: #FFFFFF;
+  border-top: 1rpx solid var(--color-border);
+  z-index: 50;
+}
+
+.btn-save-tryon {
+  width: 100%;
+  height: 96rpx;
+  line-height: 96rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: linear-gradient(135deg, var(--color-success) 0%, #059669 100%);
+  border: none;
+  border-radius: var(--radius-btn);
+  box-shadow: 0 4rpx 16rpx rgba(16, 185, 129, 0.35);
+}
+
+.btn-save-tryon::after {
+  border: none;
+}

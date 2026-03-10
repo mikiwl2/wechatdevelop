@@ -1,0 +1,195 @@
+<!--mine.wxml - 我的（用户中心）全屏滚动-->
+<wxs module="m">
+  function inArray(arr, val) {
+    if (!arr || !arr.length) return false;
+    for (var i = 0; i < arr.length; i++) if (arr[i] === val) return true;
+    return false;
+  }
+  module.exports.inArray = inArray;
+</wxs>
+<scroll-view class="page-mine" scroll-y enhanced show-scrollbar="{{false}}">
+  <!-- 未登录态 -->
+  <view class="login-section" wx:if="{{!isLogged}}">
+    <view class="login-hero">
+      <view class="login-gradient"></view>
+      <image class="login-avatar" src="/images/default-avatar.png" mode="aspectFill" />
+      <button class="btn-login btn-outline" bindtap="onLogin">登录/注册</button>
+      <text class="login-hint">登录后查看您的试衣作品</text>
+    </view>
+  </view>
+
+  <!-- 已登录态 -->
+  <block wx:else>
+    <!-- 1. 顶部沉浸区（45-55% 屏高） -->
+    <view class="hero-section" style="height: {{heroHeight}}px;">
+      <view class="hero-bg">
+        <image
+          wx:if="{{latestTryonImage}}"
+          class="hero-bg-img"
+          src="{{latestTryonImage}}"
+          mode="aspectFill"
+        />
+        <view class="hero-overlay"></view>
+      </view>
+      <view class="hero-content">
+        <image class="hero-avatar" src="{{avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill" />
+        <view class="hero-name-wrap" bindtap="onGoProfile">
+          <view class="hero-name">{{nickname || '用户'}}</view>
+          <view class="hero-name-hint">点击昵称修改个人资料</view>
+        </view>
+        <view class="hero-count">
+          <text class="hero-count-icon">♥</text>
+          <text>已保存 {{tryonCount}} 张</text>
+        </view>
+        <view class="hero-actions">
+          <view class="hero-btn hero-btn-logout" bindtap="onLogoutTap">退出</view>
+          <view class="hero-btn" bindtap="onMoreTap">⋯</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 2. 信息统计行 -->
+    <view class="stats-row">
+      <view class="stat-item">
+        <text class="stat-icon">🖼</text>
+        <text class="stat-num">{{statSaved}}</text>
+        <text class="stat-label">已保存作品</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-icon">✨</text>
+        <text class="stat-num">{{statGenerated}}</text>
+        <text class="stat-label">生成次数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-icon">♥</text>
+        <text class="stat-num">{{statLikes}}</text>
+        <text class="stat-label">点赞</text>
+      </view>
+    </view>
+
+    <!-- 主内容卡片：Tabs + 作品列表 -->
+    <view class="mine-main-card">
+      <!-- 抖音风格：Tab 切换（我的试衣 / 我的点赞 / 我的收藏） -->
+      <view class="dy-tabs">
+        <view class="dy-tab {{tabIndex === 0 ? 'active' : ''}}" data-index="0" bindtap="onTabTap">我的试衣</view>
+        <view class="dy-tab {{tabIndex === 1 ? 'active' : ''}}" data-index="1" bindtap="onTabTap">我的点赞</view>
+        <view class="dy-tab {{tabIndex === 2 ? 'active' : ''}}" data-index="2" bindtap="onTabTap">我的收藏</view>
+        <view class="dy-indicator" style="left: {{indicatorLeft}};"></view>
+      </view>
+
+      <view class="dy-panel">
+        <!-- Tab 0: 我的试衣 -->
+        <block wx:if="{{tabIndex === 0}}">
+          <!-- 删除模式工具栏（有作品时显示） -->
+          <view class="works-toolbar" wx:if="{{tryonList.length > 0}}">
+            <block wx:if="{{!isDeleteMode}}">
+              <view class="toolbar-btn toolbar-btn-delete" bindtap="onEnterDeleteMode"><text class="toolbar-btn-icon">🗑</text> 删除</view>
+            </block>
+            <block wx:else>
+              <view class="toolbar-btn toolbar-btn-cancel" bindtap="onExitDeleteMode">取消</view>
+              <view class="toolbar-info">已选 {{deleteSelected.length}} 项</view>
+              <view class="toolbar-btn toolbar-btn-confirm" bindtap="onConfirmDelete">确认删除</view>
+            </block>
+          </view>
+
+          <view class="works-section works-section-tight">
+          <!-- 单张：大卡片 -->
+          <view
+            wx:if="{{tryonList.length === 1}}"
+            class="work-single {{isDeleteMode ? 'work-item-delete-mode' : ''}}"
+            data-index="0"
+            data-id="{{tryonList[0].id}}"
+            catchtap="onWorkItemTap"
+            bindlongpress="onWorkLongPress"
+          >
+            <image class="work-single-img" src="{{tryonList[0].image}}" mode="widthFix" />
+            <view class="work-single-mask">
+              <text class="work-single-title">{{tryonList[0].title || '试衣作品'}}</text>
+              <text class="work-single-meta">最新 · ♥ {{tryonList[0].likesDisplay || tryonList[0].likes || 0}} · 💬 {{tryonList[0].commentCount || 0}}</text>
+            </view>
+            <view class="work-tag work-tag-new" wx:if="{{!isDeleteMode}}">最新</view>
+            <view class="work-checkbox {{m.inArray(deleteSelected, 0) ? 'work-checkbox-checked' : ''}}" wx:if="{{isDeleteMode}}">✓</view>
+          </view>
+
+          <!-- 多张：2列网格 -->
+          <view wx:elif="{{tryonList.length > 1}}" class="work-grid">
+            <view
+              class="work-grid-item {{isDeleteMode ? 'work-item-delete-mode' : ''}}"
+              wx:for="{{tryonList}}"
+              wx:key="index"
+              data-index="{{index}}"
+              data-id="{{item.id}}"
+              catchtap="onWorkItemTap"
+              bindlongpress="onWorkLongPress"
+            >
+              <image class="work-grid-img" src="{{item.image}}" mode="aspectFill" />
+              <view class="work-grid-mask">
+                <text class="work-grid-likes">♥ {{item.likesDisplay || item.likes || 0}}  ·  💬 {{item.commentCount || 0}}</text>
+              </view>
+              <view class="work-tag" wx:if="{{index === 0 && !isDeleteMode}}">最新</view>
+              <view class="work-checkbox {{m.inArray(deleteSelected, index) ? 'work-checkbox-checked' : ''}}" wx:if="{{isDeleteMode}}">✓</view>
+            </view>
+          </view>
+
+          <!-- 空状态 -->
+          <view wx:else class="work-empty">
+            <text class="work-empty-text">还没有试衣作品，快去创作第一张吧</text>
+            <view class="work-empty-btn" bindtap="onGoTryon">+ 立即创作</view>
+          </view>
+
+          </view>
+        </block>
+
+        <!-- Tab 1: 我的点赞 -->
+        <block wx:elif="{{tabIndex === 1}}">
+          <view class="works-section works-section-tight">
+            <view class="work-grid" wx:if="{{likedList.length > 0}}">
+              <view class="work-grid-item" wx:for="{{likedList}}" wx:key="id" data-id="{{item.id}}" catchtap="onOpenDetail">
+                <image class="work-grid-img" src="{{item.image}}" mode="aspectFill" />
+                <view class="work-grid-mask">
+                  <text class="work-grid-likes">♥ {{item.likesDisplay || item.likes || 0}}</text>
+                </view>
+                <view class="work-tag">已赞</view>
+              </view>
+            </view>
+            <view class="work-empty work-empty-compact" wx:else>
+              <text class="work-empty-text">暂无点赞作品</text>
+            </view>
+          </view>
+        </block>
+
+        <!-- Tab 2: 我的收藏 -->
+        <block wx:else>
+          <view class="works-section works-section-tight">
+            <view class="work-grid" wx:if="{{savedList.length > 0}}">
+              <view class="work-grid-item" wx:for="{{savedList}}" wx:key="id" data-id="{{item.id}}" catchtap="onOpenDetail">
+                <image class="work-grid-img" src="{{item.image}}" mode="aspectFill" />
+                <view class="work-grid-mask">
+                  <text class="work-grid-likes">★ {{item.savesDisplay || item.saves || 0}}</text>
+                </view>
+                <view class="work-tag">已藏</view>
+              </view>
+            </view>
+            <view class="work-empty work-empty-compact" wx:else>
+              <text class="work-empty-text">暂无收藏作品</text>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="bottom-spacer"></view>
+  </block>
+</scroll-view>
+
+<!-- + 生成更多 浮动按钮（移出 scroll-view 避免触摸被滚动抢占） -->
+<view
+  wx:if="{{isLogged && tryonList.length > 0 && !isDeleteMode && tabIndex === 0}}"
+  class="fab-more-wrap"
+  catchtap="onGoTryon"
+>
+  <view class="fab-more">+ 生成更多</view>
+</view>
+
+
+

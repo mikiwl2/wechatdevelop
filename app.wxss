@@ -1,0 +1,62 @@
+/**app.wxss - AI试衣小程序全局样式**/
+
+/* 设计变量 */
+page {
+  --color-primary: #6366F1;
+  --color-primary-light: #818CF8;
+  --color-accent: #EC4899;
+  --color-bg: #F8FAFC;
+  --color-card: #FFFFFF;
+  --color-text: #1E293B;
+  --color-text-secondary: #64748B;
+  --color-text-hint: #94A3B8;
+  --color-border: #E2E8F0;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --radius-card: 16rpx;
+  --radius-btn: 24rpx;
+  --shadow-card: 0 4rpx 20rpx rgba(99, 102, 241, 0.08);
+  --spacing-page: 32rpx;
+  --spacing-card: 24rpx;
+}
+
+page {
+  background-color: var(--color-bg);
+  font-size: 28rpx;
+  color: var(--color-text);
+  box-sizing: border-box;
+}
+
+.container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-page);
+  box-sizing: border-box;
+}
+
+/* 主色按钮 */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  color: #FFFFFF;
+  border-radius: var(--radius-btn);
+  border: none;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+/* 描边按钮 */
+.btn-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2rpx solid var(--color-primary);
+  border-radius: var(--radius-btn);
+  font-size: 32rpx;
+}
+
+/* 卡片样式 */
+.card {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+} 

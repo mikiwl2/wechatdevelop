@@ -1,0 +1,224 @@
+/** ai-quick.wxss - AI试衣 Tab 入口页 */
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg);
+}
+
+.scrollarea {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.page-content {
+  padding: 24rpx var(--spacing-page) calc(160rpx + env(safe-area-inset-bottom));
+}
+
+.hero {
+  margin-bottom: 32rpx;
+  padding: 24rpx 24rpx 20rpx;
+  border-radius: 24rpx;
+  background: linear-gradient(135deg, #EEF2FF 0%, #FDF2FF 100%);
+  box-shadow: 0 8rpx 24rpx rgba(148, 163, 184, 0.25);
+}
+
+.hero-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 8rpx;
+}
+
+.hero-subtitle {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+
+.section-block {
+  padding: 24rpx 24rpx 32rpx;
+  border-radius: 24rpx;
+  background: #FFFFFF;
+  box-shadow: 0 8rpx 24rpx rgba(148, 163, 184, 0.15);
+  margin-bottom: 32rpx;
+}
+
+.upload-section {
+  margin-bottom: 0;
+}
+
+.section-person {
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, #FFFFFF 42%);
+}
+
+.section-clothes {
+  background: linear-gradient(180deg, rgba(236, 72, 153, 0.08) 0%, #FFFFFF 42%);
+}
+
+.section-actions {
+  background: #FFFFFF;
+  border: 1rpx solid rgba(148, 163, 184, 0.25);
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 16rpx;
+}
+
+.upload-card {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  border: 2rpx dashed var(--color-border);
+  overflow: hidden;
+  aspect-ratio: 1;
+  box-shadow: var(--shadow-card);
+}
+
+.upload-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+}
+
+.upload-icon {
+  font-size: 64rpx;
+  opacity: 0.6;
+}
+
+.upload-text {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+}
+
+.upload-hint {
+  font-size: 22rpx;
+  color: var(--color-text-hint);
+}
+
+.upload-preview {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.primary-actions {
+  margin-top: 8rpx;
+}
+
+.btn-generate {
+  width: 100%;
+  height: 88rpx;
+  border-radius: var(--radius-btn);
+  font-size: 32rpx;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  box-shadow: 0 8rpx 24rpx rgba(99, 102, 241, 0.4);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Popup 与 tryon 保持一致视觉 */
+.popup-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1000;
+}
+
+.popup-content {
+  width: 100%;
+  background: var(--color-card);
+  border-radius: 32rpx 32rpx 0 0;
+  padding: 32rpx;
+  /* 留出底部导航栏高度，避免保存按钮被遮挡 */
+  padding-bottom: calc(32rpx + 130rpx + env(safe-area-inset-bottom));
+}
+
+.popup-body {
+  margin-bottom: 24rpx;
+}
+
+.result-area {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--color-border);
+  margin-bottom: 24rpx;
+}
+
+.result-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.skeleton {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  width: 100%;
+  height: 100%;
+}
+
+.status-text {
+  display: block;
+  text-align: center;
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+}
+
+.popup-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+.popup-btn {
+  width: 100%;
+  height: 88rpx;
+  border-radius: var(--radius-btn);
+  font-size: 30rpx;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+.popup-btn-primary {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  box-shadow: 0 8rpx 24rpx rgba(99, 102, 241, 0.4);
+}
+.popup-btn-ghost {
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: 2rpx solid rgba(148, 163, 184, 0.4);
+}
+

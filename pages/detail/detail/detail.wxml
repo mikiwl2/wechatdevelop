@@ -1,0 +1,63 @@
+<!--detail.wxml - 作品详情-->
+<navigation-bar title="作品详情" back="{{true}}" color="#FFFFFF" background="transparent"></navigation-bar>
+
+<scroll-view class="page" scroll-y enhanced show-scrollbar="{{false}}">
+  <view class="hero">
+    <image class="hero-img" src="{{item.image}}" mode="aspectFill" bindtap="onPreview" />
+    <view class="hero-mask"></view>
+    <view class="hero-actions">
+      <view class="pill {{userLiked ? 'active-like' : ''}}" catchtap="onToggleLike">
+        <text class="pill-icon">{{userLiked ? '♥' : '♡'}}</text>
+        <text class="pill-text">{{likes}}</text>
+      </view>
+      <view class="pill {{userSaved ? 'active-save' : ''}}" catchtap="onToggleSave">
+        <text class="pill-icon">{{userSaved ? '★' : '☆'}}</text>
+        <text class="pill-text">{{saves}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="content">
+    <view class="meta">
+      <text class="title">{{item.title || '试衣作品'}}</text>
+      <text class="sub">{{item.nickname || '匿名用户'}} · {{createdAtText}}</text>
+    </view>
+
+    <view class="comment-header">
+      <text class="comment-title">评论</text>
+      <text class="comment-count">{{comments.length}}</text>
+    </view>
+
+    <view class="comment-list" wx:if="{{comments.length > 0}}">
+      <view class="comment-item" wx:for="{{comments}}" wx:key="id">
+        <image class="c-avatar" src="{{item.avatar || '/images/default-avatar.png'}}" mode="aspectFill" />
+        <view class="c-body">
+          <view class="c-top">
+            <text class="c-name">{{item.nickname || '匿名'}}</text>
+            <text class="c-time">{{item.timeText}}</text>
+          </view>
+          <text class="c-text">{{item.text}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="comment-empty" wx:else>
+      <text class="empty-text">还没有评论，来抢沙发吧</text>
+    </view>
+
+    <view class="bottom-spacer"></view>
+  </view>
+</scroll-view>
+
+<view class="composer">
+  <input
+    class="input"
+    placeholder="写下你的评论…"
+    value="{{draft}}"
+    bindinput="onDraft"
+    confirm-type="send"
+    bindconfirm="onSend"
+  />
+  <view class="send" catchtap="onSend">发送</view>
+</view>
+

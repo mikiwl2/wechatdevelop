@@ -1,0 +1,9 @@
+{
+  "name": "auth_v2",
+  "version": "1.0.0",
+  "description": "cloud auth function",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "3.0.4"
+  }
+}

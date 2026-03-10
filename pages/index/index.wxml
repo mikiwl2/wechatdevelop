@@ -1,0 +1,58 @@
+<!--index.wxml - AI衣橱-->
+<navigation-bar title="AI衣橱" back="{{false}}" color="#1E293B" background="#F8FAFC"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list" enhanced show-scrollbar="{{false}}">
+  <view class="page-content">
+    <!-- 顶部标题卡片 -->
+    <view class="header header-card">
+      <text class="title">AI 衣橱</text>
+      <text class="subtitle">探索大家的穿搭灵感</text>
+    </view>
+
+    <!-- 内容区：作品流卡片 -->
+    <view class="feed-section section-block">
+      <!-- 有数据：卡片网格 -->
+      <view class="card-grid" wx:if="{{list.length > 0}}">
+        <view
+          class="card-item"
+          wx:for="{{list}}"
+          wx:key="id"
+          bindtap="onOpenDetail"
+          bindlongpress="onLongPress"
+          data-item="{{item}}"
+          data-id="{{item.id}}"
+        >
+          <image class="card-image" src="{{item.image}}" mode="aspectFill" />
+          <view class="card-footer">
+            <image class="avatar" src="{{item.avatar || '/images/default-avatar.png'}}" mode="aspectFill" />
+            <view class="card-info">
+              <text class="nickname">{{item.nickname || '匿名用户'}}</text>
+              <text class="stats">{{item.likesDisplay || item.likes || 0}} 赞 · {{item.savesDisplay || item.saves || 0}} 收藏</text>
+            </view>
+            <view class="card-actions">
+              <view class="action-btn {{item.userLiked ? 'active' : ''}}" catchtap="onLike" data-index="{{index}}">
+                <text class="action-icon">{{item.userLiked ? '♥' : '♡'}}</text>
+              </view>
+              <view class="action-btn {{item.userSaved ? 'active' : ''}}" catchtap="onCollect" data-index="{{index}}">
+                <text class="action-icon">{{item.userSaved ? '★' : '☆'}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 空状态 -->
+      <view class="empty-state" wx:else>
+        <view class="empty-illustration">
+          <text class="empty-icon">👗</text>
+        </view>
+        <text class="empty-text">还没有试衣作品</text>
+        <text class="empty-hint">快去创作第一张吧</text>
+      </view>
+    </view>
+  </view>
+</scroll-view>
+
+<!-- 悬浮 + 按钮 -->
+<view class="fab" bindtap="onAdd">
+  <text class="fab-icon">+</text>
+</view>

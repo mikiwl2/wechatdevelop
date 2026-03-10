@@ -1,0 +1,9 @@
+{
+  "name": "images_v1",
+  "version": "1.0.0",
+  "description": "cloud image avatar function",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "3.0.4"
+  }
+}

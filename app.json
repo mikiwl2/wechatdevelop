@@ -1,0 +1,49 @@
+{
+  "pages": [
+    "pages/ai-quick/ai-quick",
+    "pages/index/index",
+    "pages/detail/detail/detail",
+    "pages/mine/mine",
+    "pages/edit-profile/edit-profile"
+  ],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationStyle": "custom",
+    "backgroundColor": "#1a1a2e"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#64748B",
+    "selectedColor": "#6366F1",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/ai-quick/ai-quick",
+        "text": "AI试衣"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "AI衣橱"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "renderer": "skyline",
+  "rendererOptions": {
+    "skyline": {
+      "defaultDisplayBlock": true,
+      "defaultContentBox": true,
+      "disableABTest": true,
+      "sdkVersionBegin": "3.0.0",
+      "sdkVersionEnd": "15.255.255"
+    }
+  },
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
