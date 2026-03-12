@@ -1,61 +1,71 @@
-<!--ai-quick.wxml - AI试衣 Tab 入口页-->
+<!-- ai-quick.wxml - AI试衣 Tab 入口页 -->
 <navigation-bar title="AI试衣" back="{{false}}" color="#1E293B" background="#F8FAFC"></navigation-bar>
 
 <scroll-view class="scrollarea" scroll-y enhanced show-scrollbar="{{false}}">
   <view class="page-content">
-    <!-- 顶部文案区 -->
     <view class="hero">
-      <view class="hero-title">一键AI试衣</view>
-      <view class="hero-subtitle">上传个人形象和衣服图片，秒看穿搭效果</view>
+      <view class="hero-title">一键 AI 试衣</view>
+      <view class="hero-subtitle">上传模特图和服装图，快速生成换装效果</view>
     </view>
 
-    <!-- 上传区：个人形象 -->
     <view class="upload-section section-block section-person">
-      <view class="section-title">个人形象</view>
+      <view class="section-title">模特图片</view>
       <view class="upload-card" bindtap="choosePersonImage">
         <image wx:if="{{personImage}}" class="upload-preview" src="{{personImage}}" mode="aspectFill" />
         <view wx:else class="upload-placeholder">
           <text class="upload-icon">📷</text>
-          <text class="upload-text">上传您的照片</text>
+          <text class="upload-text">上传模特照片</text>
           <text class="upload-hint">建议使用清晰正面照</text>
         </view>
       </view>
     </view>
 
-    <!-- 上传区：衣服 -->
     <view class="upload-section section-block section-clothes">
-      <view class="section-title">我的衣服</view>
+      <view class="section-title">服装图片</view>
       <view class="upload-card" bindtap="chooseClothesImage">
         <image wx:if="{{clothesImage}}" class="upload-preview" src="{{clothesImage}}" mode="aspectFill" />
         <view wx:else class="upload-placeholder">
-          <text class="upload-icon">👕</text>
-          <text class="upload-text">上传衣服图片</text>
+          <text class="upload-icon">🧥</text>
+          <text class="upload-text">上传服装平铺图</text>
           <text class="upload-hint">支持 JPG/PNG</text>
         </view>
       </view>
     </view>
 
-    <!-- 主按钮：直接生成 -->
+    <view class="section-block section-type">
+      <view class="section-title">服装类型</view>
+      <view class="type-options">
+        <view
+          wx:for="{{clothesTypeOptions}}"
+          wx:key="value"
+          class="type-chip {{clothesType === item.value ? 'type-chip-active' : ''}}"
+          data-value="{{item.value}}"
+          bindtap="onSelectClothesType"
+        >
+          {{item.label}}
+        </view>
+      </view>
+      <view class="type-hint">需与上传服装图一致：上衣 / 下装 / 连衣裙</view>
+    </view>
+
     <view class="primary-actions section-block section-actions">
-      <button class="btn-generate" bindtap="onGenerate">一键生成试衣</button>
+      <button class="btn-generate" bindtap="onGenerate" loading="{{generating}}" disabled="{{generating}}">
+        {{generating ? 'AI 生成中...' : '一键生成试衣'}}
+      </button>
     </view>
   </view>
 </scroll-view>
 
-<!-- 生成结果 Popup，与 tryon 复用交互体验 -->
 <view class="popup-mask" wx:if="{{showPopup}}" bindtap="onClosePopup">
   <view class="popup-content" catchtap="">
     <view class="popup-body">
       <view class="result-area">
         <image wx:if="{{!generating && resultImage}}" class="result-image" src="{{resultImage}}" mode="aspectFill" />
-        <view wx:elif="{{generating}}" class="skeleton">
-          <view class="skeleton-shimmer"></view>
-        </view>
         <view wx:else class="skeleton">
           <view class="skeleton-shimmer"></view>
         </view>
       </view>
-      <text class="status-text">{{generating ? '生成中，请稍候…' : '生成完毕'}}</text>
+      <text class="status-text">{{generating ? '生成中，请稍候…' : '生成完成'}}</text>
     </view>
     <view class="popup-footer" wx:if="{{!generating}}">
       <button class="popup-btn popup-btn-primary" bindtap="onPublishAndSave">发布并保存</button>
@@ -64,4 +74,3 @@
     </view>
   </view>
 </view>
-

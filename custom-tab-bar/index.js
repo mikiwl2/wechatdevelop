@@ -1,4 +1,3 @@
-// 自定义底部 TabBar：文字 + emoji 图标 + 渐变选中态
 const { isLoggedIn } = require('../utils/auth-guard')
 
 Component({
@@ -29,7 +28,7 @@ Component({
       if (!item) return
       if (index === this.data.selected) return
 
-      // 未登录时只允许进入“我的”登录页
+      // 未登录时仅允许进入“我的”页
       if (index !== 2 && !isLoggedIn()) {
         this.setData({ selected: 2 })
         wx.switchTab({ url: '/pages/mine/mine' })
@@ -40,7 +39,8 @@ Component({
       this.setData({ selected: index })
       wx.switchTab({ url: item.pagePath })
     },
-    // 供页面在 onShow 中调用，保持选中态同步
+
+    // 页面在 onShow 中调用，保持选中态同步
     setSelected(index) {
       if (typeof index !== 'number') return
       if (index === this.data.selected) return
